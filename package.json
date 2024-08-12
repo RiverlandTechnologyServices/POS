@@ -10,12 +10,18 @@
   },
   "dependencies": {
     "@expo/html-elements": "^0.10.1",
+    "@fortawesome/fontawesome-svg-core": "^6.6.0",
+    "@fortawesome/free-brands-svg-icons": "^6.6.0",
+    "@fortawesome/free-regular-svg-icons": "^6.6.0",
+    "@fortawesome/free-solid-svg-icons": "^6.6.0",
+    "@fortawesome/react-native-fontawesome": "^0.3.2",
     "@hcaptcha/react-native-hcaptcha": "^1.7.2",
     "expo": "~51.0.26",
     "expo-constants": "~16.0.2",
     "expo-font": "^12.0.9",
     "expo-linking": "~6.3.1",
     "expo-router": "~3.5.21",
+    "expo-secure-store": "~13.0.2",
     "expo-status-bar": "~1.12.1",
     "nativewind": "^2.0.11",
     "react": "18.2.0",
@@ -23,8 +29,8 @@
     "react-native-modal": "^13.0.1",
     "react-native-safe-area-context": "4.10.5",
     "react-native-screens": "3.31.1",
-    "react-native-webview": "13.8.6",
-    "expo-secure-store": "~13.0.2"
+    "react-native-svg": "15.2.0",
+    "react-native-webview": "13.8.6"
   },
   "devDependencies": {
     "@babel/core": "^7.20.0",

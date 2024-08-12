@@ -5,44 +5,57 @@ import Category from '../../components/Category'
 import Categories from '../../components/Categories'
 import ProductsList from '../../components/ProductsList'
 import { useGlobalContext } from '../../context/GlobalProvider'
+import Cart from '../../components/Cart'
 
 const Products = () => {
   const [categories, setCategories] = useState([])
   const [activeCategory, setActiveCategory] = useState([])
   const [products, setProducts] = useState([])
+  const [stateCart, setStateCart] = useState([])
 
   const {cart, setCart} = useGlobalContext();
 
-  const addToCart = (productID, value) => {
-    const product = cart.find((o, i) => {
-        if(o.productID === productID && deepEqual(o.variations, value.variations))
+  function deepEqual(x, y) {
+    const ok = Object.keys, tx = typeof x, ty = typeof y;
+    return x && y && tx === 'object' && tx === ty ? (
+      ok(x).length === ok(y).length &&
+        ok(x).every(key => deepEqual(x[key], y[key]))
+    ) : (x === y);
+  }
+
+  const addToCart = (product) => {
+    var tempCart = cart;
+    const foundProduct = tempCart.find((o, i) => {
+        if(o.product_id === product.product_id && deepEqual(o.variation, product.variation))
         {
-            cart[i].quantity += value.quantity;
+          tempCart[i].quantity += 1;
             return true;
         }
     });
-    if(!product)
+    if(!foundProduct)
     {
-        cart.push({productID: productID, quantity: value.quantity, variations: value.variations});
+      tempCart.push({...product, quantity: 1});
     }
-    setCart(cart);
+    setCart([...tempCart]);
   };
 
-  const removeFromCart = (productID, quantity) => {
-    var cart = getCart();
-    if(quantity > cart[productID])
+  const removeFromCart = (product) => {
+    var tempCart = cart;
+    const foundProduct = tempCart.find((o, i) => {
+        if(o.product_id === product.product_id && deepEqual(o.variation, product.variation))
+        {
+            console.log("Removing Index: ", i);
+            const x = tempCart.splice(i,1);
+            console.log("Removed Object:")
+            console.log(x);
+            return true;
+        }
+    });
+    if(!foundProduct)
     {
-        cart[productID] = undefined;
+
     }
-    else if(quantity === cart[productID])
-    {
-        cart[productID] = undefined;
-    }
-    else
-    {
-        cart[productID].quantity -= quantity;
-    }
-    setCart(cart);
+    setCart([...tempCart]);
   };
 
   const getCategories = () => {
@@ -71,6 +84,7 @@ const Products = () => {
     getCategories();
   }, [])
 
+
   useEffect(() => {
     getProducts(activeCategory)
   }, [activeCategory])
@@ -81,10 +95,12 @@ const Products = () => {
         <View className="w-1/12">
           <Categories categories={categories} onCategoryChange={setActiveCategory}/>
         </View>
-        <View className="w-9/12">
-          <ProductsList products={products} />
+        <View className="w-8/12">
+          <ProductsList products={products} addToCart={addToCart}/>
         </View>
-        
+        <View className="w-3/12 h-full">
+          <Cart stateCart={stateCart} removeFromCart={removeFromCart}/>
+        </View>
 
       </View>
     </SafeAreaView>

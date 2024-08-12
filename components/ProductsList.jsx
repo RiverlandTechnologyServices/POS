@@ -7,18 +7,13 @@ const ProductsList = ({products, addToCart}) => {
 
   function getCombn(data) {
     //const pairs = Object.keys(settings).slice(1).reduce((acc, key)=>(acc.flatMap(v=>Object.entries(settings[key]).map(s=>[...v, s]))), Object.entries(settings[Object.keys(settings)[0]]).map(v=>[v]));
-    Object.keys(data).reduce(
+    return Object.keys(data).reduce(
       (perms, key) => Object.keys(data[key]).flatMap(
-          option => perms.map(
-              perm => {
-                  const newperm = {...perm};
-                  newperm[key] = option;
-                  return newperm
-              }
-          )
+          option => perms.map(perm => ({...perm, [key]: option}))
       ),
       [{}]
   ); 
+    //return pairs
   
   }
 
@@ -29,10 +24,24 @@ const ProductsList = ({products, addToCart}) => {
     {
       if(Object.keys(products[product].variations).length !== 0)
       {
-        console.log(products[product].variations);
-        console.log(getCombn(products[product].variations));
+        const variations = getCombn(products[product].variations);
+        for(const variation in variations)
+        {
+          variantName = "";
+          variantPrice = 0;
+          for(const variationName in variations[variation])
+          {
+            variantName += variations[variation][variationName] + " ";
+            variantPrice += products[product].variations[variationName][variations[variation][variationName]]
+          }
+          console.log(variantPrice)
+          console.log(variantName)
+          productsTemp.push((<Product key={products[product].product_id+variation} product={{...products[product], name: products[product].name + " " + variantName, price: products[product].price + variantPrice, variation: variations[variation]}} handlePress={(product) => {addToCart(product)}}></Product>))
+
+        }
       }
-      productsTemp.push((<Product key={products[product].product_id} product={products[product]} handlePress={(product) => {addToCart(product)}}></Product>))
+      else
+        productsTemp.push((<Product key={products[product].product_id} product={products[product]} handlePress={(product) => {addToCart(product)}}></Product>))
     }
 
     setProductElements(productsTemp);
