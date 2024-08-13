@@ -13,16 +13,13 @@ const Cart = ({stateCart, removeFromCart}) => {
   useEffect(() => {
     var tempCartElements = []
 
-    console.log("Cart: ")
-    console.log(cart)
-
-    for(item in cart)
+    for(let item in cart)
     {
       if(cart[item])
-        tempCartElements.push((<View key={cart[item] ? cart[item].product_id : ""} className="bg-black-100 font-pregular h-36 items-center justify-center w-full flex-row"><View className="w-2/12 h-full justify-center items-center"><View className="p-2 border-2 border-secondary rounded-md"><Text>{cart[item] ? cart[item].quantity : ""}</Text></View></View><View className="h-full justify-center items-center w-8/12"><Text>{cart[item] ? cart[item].name : ""}</Text><Text>${cart[item] ? cart[item].price/100 : ""}</Text></View><View className="w-2/12 h-full justify-center items-center"><TouchableHighlight onPress={() => {removeFromCart(cart[item])}}><View className="p-2"><FontAwesomeIcon icon={faCircleXmark} size={20}></FontAwesomeIcon></View></TouchableHighlight></View></View>))
+        tempCartElements.push((<View key={cart[item].key} className="bg-black-100 font-pregular h-36 items-center justify-center w-full flex-row"><View className="w-2/12 h-full justify-center items-center"><View className="p-2 border-2 border-secondary rounded-md"><Text>{cart[item].quantity}</Text></View></View><View className="h-full justify-center items-center w-8/12"><Text>{cart[item].name}</Text><Text>${cart[item].price/100}</Text></View><View className="w-2/12 h-full justify-center items-center"><TouchableHighlight onPress={() => {removeFromCart(item)}}><View className="p-2"><FontAwesomeIcon icon={faCircleXmark} size={20}></FontAwesomeIcon></View></TouchableHighlight></View></View>))
     }
     setCartElements(tempCartElements);
-  }, [cart])
+  }, [cart, removeFromCart])
 
   return (
     <ScrollView>

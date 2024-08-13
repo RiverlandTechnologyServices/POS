@@ -28,6 +28,7 @@ const RootLayout = () => {
         return undefined;
 
     }, [fontsLoaded, err])
+    
   return (
     <GlobalProvider>
       <Stack>

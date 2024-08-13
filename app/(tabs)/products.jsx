@@ -25,6 +25,7 @@ const Products = () => {
 
   const addToCart = (product) => {
     var tempCart = cart;
+    console.log(tempCart)
     const foundProduct = tempCart.find((o, i) => {
         if(o.product_id === product.product_id && deepEqual(o.variation, product.variation))
         {
@@ -40,22 +41,10 @@ const Products = () => {
   };
 
   const removeFromCart = (product) => {
+    console.log(product);
     var tempCart = cart;
-    const foundProduct = tempCart.find((o, i) => {
-        if(o.product_id === product.product_id && deepEqual(o.variation, product.variation))
-        {
-            console.log("Removing Index: ", i);
-            const x = tempCart.splice(i,1);
-            console.log("Removed Object:")
-            console.log(x);
-            return true;
-        }
-    });
-    if(!foundProduct)
-    {
-
-    }
-    setCart([...tempCart]);
+    tempCart.splice(product, 1)
+    setCart([...tempCart])
   };
 
   const getCategories = () => {

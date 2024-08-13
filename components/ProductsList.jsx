@@ -36,16 +36,16 @@ const ProductsList = ({products, addToCart}) => {
           }
           console.log(variantPrice)
           console.log(variantName)
-          productsTemp.push((<Product key={products[product].product_id+variation} product={{...products[product], name: products[product].name + " " + variantName, price: products[product].price + variantPrice, variation: variations[variation]}} handlePress={(product) => {addToCart(product)}}></Product>))
+          productsTemp.push((<Product key={products[product].product_id+variantName} product={{...products[product], name: products[product].name + " " + variantName, price: products[product].price + variantPrice, variation: variations[variation], key: products[product].product_id+variantName}} handlePress={(product) => {addToCart(product)}}></Product>))
 
         }
       }
       else
-        productsTemp.push((<Product key={products[product].product_id} product={products[product]} handlePress={(product) => {addToCart(product)}}></Product>))
+        productsTemp.push((<Product key={products[product].product_id} product={{...products[product], key: products[product].product_id}} handlePress={(product) => {addToCart(product)}}></Product>))
     }
 
     setProductElements(productsTemp);
-  }, [products])
+  }, [products, addToCart])
   
   return (
     <ScrollView>
